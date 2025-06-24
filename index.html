@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title></title>
+  <title>League Table</title>
   <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <style>
@@ -25,17 +25,18 @@
       min-width: 600px;
     }
 
-    th {
-      background-color: #d21036;
-      color: #f5f5f5;
-      padding: 12px;
+    th, td {
+      padding: 10px;
       text-align: center;
     }
 
+    th {
+      background-color: #d21036;
+      color: #f5f5f5;
+    }
+
     td {
-      padding: 10px;
       border: 1px solid #f5f5f5;
-      text-align: center;
     }
 
     tr:nth-child(even) {
@@ -51,6 +52,14 @@
       font-weight: bold;
       border-left: 4px solid #ffc107;
     }
+
+    /* 🔻 Hide specific columns on mobile */
+    @media (max-width: 768px) {
+      th.hide-mobile,
+      td.hide-mobile {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -64,45 +73,4 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWItUXWERAgydrhXT6fwpPSGzqUO9O3YpP3DiYXKfTnkKGUY19y5Edd2J8GevzjAyJYLGu_Hw2DCJ/pub?output=csv";
-
-      Papa.parse(csvUrl, {
-        download: true,
-        header: false,
-        complete: function (results) {
-          const data = results.data;
-          const table = document.getElementById("leagueTable");
-          const thead = table.querySelector("thead");
-          const tbody = table.querySelector("tbody");
-
-          const headerRow = document.createElement("tr");
-          data[0].forEach(cell => {
-            const th = document.createElement("th");
-            th.textContent = cell;
-            headerRow.appendChild(th);
-          });
-          thead.appendChild(headerRow);
-
-          data.slice(1).forEach(row => {
-            const tr = document.createElement("tr");
-            row.forEach(cell => {
-              const td = document.createElement("td");
-              td.textContent = cell;
-              tr.appendChild(td);
-            });
-
-            if (row.includes("Welsh Cakes FC")) {
-              tr.classList.add("highlight-team");
-            }
-
-            tbody.appendChild(tr);
-          });
-        },
-        error: function (err) {
-          console.error("Error loading CSV:", err);
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+      const csvUrl = "https://docs.google.com/spr
